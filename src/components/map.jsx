@@ -15,16 +15,18 @@ export default function Map() {
   const map = useRef(null);
   const [center] = useState(JSON.parse(localStorage.getItem("center")) || [DEFAULT_LNG, DEFAULT_LAT]);
   const [zoom] = useState(JSON.parse(localStorage.getItem("zoom")) || DEFAULT_ZOOM);
+  const [mapStyle] = useState(JSON.parse(localStorage.getItem("mapStyle")) || `https://api.maptiler.com/maps/streets-v2/style.json?key=${API_KEY}`);
 
   useEffect(() => {
     if (map.current) return; 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${API_KEY}`,
+      style: mapStyle,
       center: center,
       zoom: zoom,
       minZoom: MIN_ZOOM,
-      maxZoom: MAX_ZOOM
+      maxZoom: MAX_ZOOM,
+      maxTileCacheSize: 1
     });
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
     new maplibregl.Marker({color:"red"})
@@ -33,8 +35,9 @@ export default function Map() {
     map.current.on('move', () => {
       localStorage.setItem("center", JSON.stringify(map.current.getCenter()));
       localStorage.setItem("zoom", JSON.stringify(map.current.getZoom()));
+      localStorage.setItem("mapStyle", JSON.stringify(map.current.getStyle()));
     });
-    }, [map, center, zoom]);
+    }, [map, center, zoom, mapStyle]);
     
     return (
       <div className="map-wrap">
