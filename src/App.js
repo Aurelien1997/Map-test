@@ -5,7 +5,7 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [toggleState, setToggleState] = useState(0);
+  const [toggleState, setToggleState] = useState(1);
 
   return (
     <div className="App">
