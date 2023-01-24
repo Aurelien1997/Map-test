@@ -28,7 +28,7 @@ function App() {
       </div>
 
       <div className={toggleState === 2 ? "content  active-content" : "content"}>
-        <Map/>
+        <Map toggleState={toggleState} />
       </div>
     </div>
   );

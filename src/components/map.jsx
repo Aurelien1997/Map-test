@@ -10,7 +10,7 @@ const DEFAULT_ZOOM = 12;
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 15;
 
-export default function Map() {
+export default function Map({ toggleState }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [center] = useState(JSON.parse(localStorage.getItem("center")) || [DEFAULT_LNG, DEFAULT_LAT]);
@@ -18,6 +18,7 @@ export default function Map() {
   const [mapStyle] = useState(JSON.parse(localStorage.getItem("mapStyle")) || `https://api.maptiler.com/maps/streets-v2/style.json?key=${API_KEY}`);
 
   useEffect(() => {
+    if (toggleState !== 2) return;
     if (map.current) return; 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
@@ -37,7 +38,7 @@ export default function Map() {
       localStorage.setItem("zoom", JSON.stringify(map.current.getZoom()));
       localStorage.setItem("mapStyle", JSON.stringify(map.current.getStyle()));
     });
-    }, [map, center, zoom, mapStyle]);
+    }, [map, center, zoom, mapStyle, toggleState]);
     
     return (
       <div className="map-wrap">
