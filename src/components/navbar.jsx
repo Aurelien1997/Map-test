@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 function Navbar({setToggleStateFromParent}) {
 
-  const [toggleState, setToggleState] = useState(1);
+  const [toggleState, setToggleState] = useState(0);
 
   const toggleTab = (index) => {
     setToggleState(index);

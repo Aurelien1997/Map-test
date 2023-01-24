@@ -5,7 +5,7 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [toggleState, setToggleState] = useState(1);
+  const [toggleState, setToggleState] = useState(0);
 
   return (
     <div className="App">
@@ -28,7 +28,7 @@ function App() {
       </div>
 
       <div className={toggleState === 2 ? "content  active-content" : "content"}>
-        <Map/>
+        <Map toggleState={toggleState} />
       </div>
     </div>
   );
