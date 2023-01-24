@@ -10,7 +10,7 @@ const DEFAULT_ZOOM = 12;
 const MIN_ZOOM = 10;
 const MAX_ZOOM = 15;
 
-export default function Map({ toggleState }) {
+export default function Map({ toggleState, setLoading }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [center] = useState(JSON.parse(localStorage.getItem("center")) || [DEFAULT_LNG, DEFAULT_LAT]);
@@ -19,7 +19,8 @@ export default function Map({ toggleState }) {
 
   useEffect(() => {
     if (toggleState !== 2) return;
-    if (map.current) return; 
+    if (map.current) return;
+    setLoading(true); 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: mapStyle,
@@ -32,12 +33,15 @@ export default function Map({ toggleState }) {
     new maplibregl.Marker({color:"red"})
       .setLngLat([DEFAULT_LNG, DEFAULT_LAT])
       .addTo(map.current);
+    map.current.on('load', () => {
+      setLoading(false); 
+      });
     map.current.on('move', () => {
       localStorage.setItem("center", JSON.stringify(map.current.getCenter()));
       localStorage.setItem("zoom", JSON.stringify(map.current.getZoom()));
       localStorage.setItem("mapStyle", JSON.stringify(map.current.getStyle()));
     });
-    }, [map, center, zoom, mapStyle, toggleState]);
+    }, [map, center, zoom, mapStyle, toggleState, setLoading]);
     
     return (
       <div className="map-wrap">

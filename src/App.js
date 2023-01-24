@@ -3,14 +3,19 @@ import Map from "./components/map";
 import Navbar from "./components/navbar";
 import { useState } from "react";
 import "./App.css";
+import Spinner from "./components/spinner";
 
 function App() {
   const [toggleState, setToggleState] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="App">
 
-      <Navbar setToggleStateFromParent={setToggleState} />
+      <Navbar 
+        setToggleStateFromParent={setToggleState} 
+        setLoading={setLoading}
+      />
 
       <div className={toggleState === 1 ? "content  active-content" : "content"}>
         <div className="content-text">
@@ -28,7 +33,8 @@ function App() {
       </div>
 
       <div className={toggleState === 2 ? "content  active-content" : "content"}>
-        <Map toggleState={toggleState} />
+        {loading && <Spinner />}
+        <Map toggleState={toggleState} setLoading={setLoading} />
       </div>
     </div>
   );
