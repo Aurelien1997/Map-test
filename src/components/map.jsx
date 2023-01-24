@@ -26,8 +26,7 @@ export default function Map({ toggleState }) {
       center: center,
       zoom: zoom,
       minZoom: MIN_ZOOM,
-      maxZoom: MAX_ZOOM,
-      maxTileCacheSize: 1
+      maxZoom: MAX_ZOOM
     });
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
     new maplibregl.Marker({color:"red"})
